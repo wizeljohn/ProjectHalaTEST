@@ -1,5 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+    <widget xmlns   = "http://www.w3.org/ns/widgets"
+        xmlns:gap   = "http://phonegap.com/ns/1.0"
+        id          = "com.weizncompany.hala2k16"
+        versionCode = "10" 
+        version     = "1.0.0" >
+
+    <!-- versionCode is optional and Android only -->
+
+    <name>Hala2k16</name>
+
+    <description>
+        hala 2016
+    </description>
+
+    <author href="https://fb.com/wizeljohn" email="jhonwesleybonifacio062292@gmail.com">
+        weiz Jhon
+    </author>
 
     <gap:plugin name="com.phonegap.plugins.facebookconnect" version="0.4.0">
     <param name="APP_ID" value="1709102955977482" />
     <param name="APP_NAME" value="hala2016" />
     </gap:plugin>
+
+</widget>
