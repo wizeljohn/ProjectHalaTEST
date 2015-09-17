@@ -111,6 +111,9 @@
   <div data-role="content">
     <fb:login-button scope="public_profile,email" onlogin="checkLoginState();" autologoutlink="true">
     </fb:login-button>
+
+    <div id="status">
+    </div>
     
   </div><!--end of content-->
 
@@ -124,11 +127,12 @@
 
   <div data-role="content">
     <h1>NewsFeed</h1> 
+   
+   <fb:login-button scope="public_profile,email" onlogin="checkLoginState();" autologoutlink="true">
+    </fb:login-button>
+
     <div id="status">
     </div>
-    <fb:login-button scope="public_profile,email" onlogin="checkLoginState();" autologoutlink="true">
-    </fb:login-button>
-   
   </div><!--end of content-->
 
   <div data-role="footer" data-position="fixed">

@@ -22,4 +22,6 @@
     <param name="APP_NAME" value="hala2016" />
     </gap:plugin>
 
+    <access origin="*" />
+
 </widget>
