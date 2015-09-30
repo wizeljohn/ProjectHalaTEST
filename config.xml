@@ -22,12 +22,56 @@
     <param name="APP_ID" value="1709102955977482" />
     <param name="APP_NAME" value="hala2016" />
     </gap:plugin>
+   
+    <asset src="www/cdv-plugin-fb-connect.js" target="cdv-plugin-fb-connect.js" />
+    <asset src="www/facebook-js-sdk.js" target="facebook-js-sdk.js" />
+
+    <engines>
+      <engine name="cordova" version=">=3.0.0" />
+    </engines>
     
-    <feature name="http://api.phonegap.com/1.0/camera"/>
-    <feature name="http://api.phonegap.com/1.0/contacts"/>
-    <feature name="http://api.phonegap.com/1.0/file"/>
-    <feature name="http://api.phonegap.com/1.0/geolocation"/>
-    <feature name="http://api.phonegap.com/1.0/media"/>
-    <feature name="http://api.phonegap.com/1.0/network"/>
-    <feature name="http://api.phonegap.com/1.0/notification"/>>
-</widget>
+    <!-- android -->
+    <platform name="android">
+        
+	<config-file target="res/xml/config.xml" parent="/*">
+	    <access origin="https://m.facebook.com" />
+	    <access origin="https://graph.facebook.com" />
+	    <access origin="https://api.facebook.com" />
+	    <access origin="https://*.fbcdn.net" />
+	    <access origin="https://*.akamaihd.net" />
+            <feature name="org.apache.cordova.facebook.Connect">
+                <param name="android-package" value="org.apache.cordova.facebook.ConnectPlugin" />
+            </feature>
+        </config-file>
+
+        <!-- res files -->
+        <source-file src="src/android/facebook/res/drawable/close.png" target-dir="res/drawable" />
+        <source-file src="src/android/facebook/res/drawable/facebook_icon.png" target-dir="res/drawable" />
+        <source-file src="src/android/facebook/res/drawable-hdpi/close.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/facebook/res/drawable-hdpi/facebook_icon.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/facebook/res/drawable-ldpi/close.png" target-dir="res/drawable-ldpi" />
+        <source-file src="src/android/facebook/res/drawable-ldpi/facebook_icon.png" target-dir="res/drawable-ldpi" />
+        <source-file src="src/android/facebook/res/drawable-xhdpi/close.png" target-dir="res/drawable-xhdpi" />
+        
+        <!-- cordova plugin src files -->
+        <source-file src="src/android/ConnectPlugin.java" target-dir="src/org/apache/cordova/facebook" />
+        
+        <!-- facebook src files -->
+        <source-file src="src/android/facebook/AsyncFacebookRunner.java" target-dir="src/com/facebook/android" />
+        <source-file src="src/android/facebook/DialogError.java" target-dir="src/com/facebook/android" />
+        <source-file src="src/android/facebook/Facebook.java" target-dir="src/com/facebook/android" />
+        <source-file src="src/android/facebook/FacebookError.java" target-dir="src/com/facebook/android" />
+        <source-file src="src/android/facebook/FbDialog.java" target-dir="src/com/facebook/android" />
+        <source-file src="src/android/facebook/Util.java" target-dir="src/com/facebook/android" />
+         
+    </platform>
+    
+        <!-- system frameworks -->
+        <framework src="libsqlite3.dylib" />
+        <framework src="Social.framework" weak="true" />
+        <framework src="Accounts.framework" weak="true" />
+        <framework src="AdSupport.framework" weak="true" />
+        <framework src="Security.framework" weak="true" />
+
+    </platform>
+</plugin>
