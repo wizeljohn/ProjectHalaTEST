@@ -1,204 +1,459 @@
 <!DOCTYPE html>
 
 <html>
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1"> 
-<link rel="stylesheet" type="text/css" href="css/jquery.mobile.flatui.css" />
-<script src="js/jquery.js"></script>
-<script src="js/jquery.min.js"></script>
-<script src="js/jquery.mobile-1.4.0-rc.1.js"></script>
-<script src="js/Chart.js"></script>
-
-<script>
-/*
-  // This is called with the results from from FB.getLoginStatus().
-  function statusChangeCallback(response) {
-    console.log('statusChangeCallback');
-    console.log(response);
-    // The response object is returned with a status field that lets the
-    // app know the current login status of the person.
-    // Full docs on the response object can be found in the documentation
-    // for FB.getLoginStatus().
-    if (response.status === 'connected') {
-      window.location.href="index.html#NewsFeed"
-      testAPI();
-    } else if (response.status === 'not_authorized') {
-      // The person is logged into Facebook, but not your app.
-      document.getElementById('status').innerHTML = 'Please log ' +
-        'into this app.';
-    } else {
-      // The person is not logged into Facebook, so we're not sure if
-      // they are logged into this app or not.
-      document.getElementById('status').innerHTML = 'Please log ' +
-        'into Facebook.';
-    }
-  }
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+    <link rel="stylesheet" type="text/css" href="css/jquery.mobile.flatui.css" />
+    <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css" />
+      <style type="text/css">
+      #map-outer {  height: 440px; 
+                padding: 20px; 
+              border: 2px solid #ff0000; 
+              margin-bottom: 20px; 
+              background-color:#ff0000 }
+        #map-container { height: 300px }
+        </style>
+    
+    <script src="js/Chart.min.js"></script>
+    <script src="js/jquery.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery.mobile-1.4.0-rc.1.js"></script>
+    <script src="js/responsiveImg.js"></script>
     
 
-  // This function is called when someone finishes with the Login
-  // Button.  See the onlogin handler attached to it in the sample
-  // code below.
-  function checkLoginState() {
-    FB.getLoginStatus(function(response) {
-      statusChangeCallback(response);
-    });
-  }
+    
+    <script>
+      $("#banner").responsiveImg();
+      $("#binay").responsiveImg();
+      $("#grace").responsiveImg();
+      $("#roxas").responsiveImg();
+      /*
 
-  window.fbAsyncInit = function() {
-  FB.init({
-    appId      : '1709102955977482',
-    cookie     : true,  // enable cookies to allow the server to access 
-                        // the session
-    xfbml      : true,  // parse social plugins on this page
-    version    : 'v2.2' // use version 2.2
-  });
+      var doughnutData = [
+          {
+            value: 300,
+            color:"#F7464A",
+            highlight: "#FF5A5E",
+            label: "Red"
+          },
+          {
+            value: 50,
+            color: "#46BFBD",
+            highlight: "#5AD3D1",
+            label: "Green"
+          },
+          {
+            value: 100,
+            color: "#FDB45C",
+            highlight: "#FFC870",
+            label: "Yellow"
+          },
+          {
+            value: 40,
+            color: "#949FB1",
+            highlight: "#A8B3C5",
+            label: "Grey"
+          },
+          {
+            value: 120,
+            color: "#4D5360",
+            highlight: "#616774",
+            label: "Dark Grey"
+          }
 
-  // Now that we've initialized the JavaScript SDK, we call 
-  // FB.getLoginStatus().  This function gets the state of the
-  // person visiting this page and can return one of three states to
-  // the callback you provide.  They can be:
-  //
-  // 1. Logged into your app ('connected')
-  // 2. Logged into Facebook, but not your app ('not_authorized')
-  // 3. Not logged into Facebook and can't tell if they are logged into
-  //    your app or not.
-  //
-  // These three cases are handled in the callback function.
+        ];
 
-  FB.getLoginStatus(function(response) {
-    statusChangeCallback(response);
-  });
+        window.onload = function(){
+          var ctx = document.getElementById("chart-area").getContext("2d");
+          window.myDoughnut = new Chart(ctx).Doughnut(doughnutData, {responsive : true});
+        };
 
-  };
+      // This is called with the results from from FB.getLoginStatus().
+        function statusChangeCallback(response) {
+          console.log('statusChangeCallback');
+          console.log(response);
+          // The response object is returned with a status field that lets the
+          // app know the current login status of the person.
+          // Full docs on the response object can be found in the documentation
+          // for FB.getLoginStatus().
+          if (response.status === 'connected') {
+            // Logged into your app and Facebook.
+            location.href = "index.html#pageVote"
+            testAPI();
+          } else if (response.status === 'not_authorized') {
+            // The person is logged into Facebook, but not your app.
+            document.getElementById('status').innerHTML = 'Please log ' +
+              'into this app.';
+          } else {
+            // The person is not logged into Facebook, so we're not sure if
+            // they are logged into this app or not.
+            document.getElementById('status').innerHTML = 'Please log ' +
+              'into Facebook.';
+          }
+        }
 
-  // Load the SDK asynchronously
-  (function(d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) return;
-    js = d.createElement(s); js.id = id;
-    js.src = "//connect.facebook.net/en_US/sdk.js";
-    fjs.parentNode.insertBefore(js, fjs);
-  }(document, 'script', 'facebook-jssdk'));
+        // This function is called when someone finishes with the Login
+        // Button.  See the onlogin handler attached to it in the sample
+        // code below.
+        function checkLoginState() {
+          FB.getLoginStatus(function(response) {
+            statusChangeCallback(response);
+          });
+        }
 
-  // Here we run a very simple test of the Graph API after login is
-  // successful.  See statusChangeCallback() for when this call is made.
-  function testAPI() {
-    console.log('Welcome!  Fetching your information.... ');
-    FB.api('/me', function(response) {
-      console.log('Successful login for: ' + response.name);
-      document.getElementById('status').innerHTML =
-        'Thanks for logging in, ' + response.name + '!';
-    });
+        window.fbAsyncInit = function() {
+        FB.init({
+          appId      : '1686082651604243',
+          cookie     : true,  // enable cookies to allow the server to access 
+                              // the session
+          xfbml      : true,  // parse social plugins on this page
+          version    : 'v2.2' // use version 2.2
+        });
 
-  }
-  function fbLogout() {
-      FB.logout(function (response) {
-          //Do what ever you want here when logged out like reloading the page
-          window.location.href="index.html#index";
-          window.location.reload();
-      });
-  }
-  */
-</script>
-</head>
-<body>
-<div data-role="page" id="NewsFeed" data-theme="a"  data-transition="none">
+        // Now that we've initialized the JavaScript SDK, we call 
+        // FB.getLoginStatus().  This function gets the state of the
+        // person visiting this page and can return one of three states to
+        // the callback you provide.  They can be:
+        //
+        // 1. Logged into your app ('connected')
+        // 2. Logged into Facebook, but not your app ('not_authorized')
+        // 3. Not logged into Facebook and can't tell if they are logged into
+        //    your app or not.
+        //
+        // These three cases are handled in the callback function.
 
-  <div data-role="content">
-    <h1>NewsFeed</h1> 
-   
-   <fb:login-button scope="public_profile,email" onlogin="checkLoginState();" autologoutlink="true">
-    </fb:login-button>
+        FB.getLoginStatus(function(response) {
+          statusChangeCallback(response);
+        });
 
-    <div id="status">
+        };
+
+        // Load the SDK asynchronously
+        (function(d, s, id) {
+          var js, fjs = d.getElementsByTagName(s)[0];
+          if (d.getElementById(id)) return;
+          js = d.createElement(s); js.id = id;
+          js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.4&appId=1686082651604243";
+          fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+
+        // Here we run a very simple test of the Graph API after login is
+        // successful.  See statusChangeCallback() for when this call is made.
+        function testAPI() {
+          console.log('Welcome!  Fetching your information.... ');
+          FB.api('/me', function(response) {
+            console.log('Successful login for: ' + response.name);
+            document.getElementById('status').innerHTML =
+              'Thanks for logging in, ' + response.name + '!';
+
+              localStorage.setItem('appUser',response.name);
+          });
+      }
+
+  </script>
+  </head>
+
+  <body>
+
+    <!-- ======================= end of index page ================================-->
+
+      <!-- ======================= start of voting page ================================-->
+      <div data-role="page" id="pageVote" >
+        
+        <!--=== start of header ===-->
+        <div data-role="header" data-position="fixed" data-theme="f">
+          <h1><img src="image/hala2016logo.png">Hala2016</h1>
+          <div data-role="navbar">
+            <ul>
+              <li><a href="#"><span class="fa fa-thumbs-up fa-pull-center fa-2x"></span></a></li>
+              <li><a href="#pageLearn"><span class="fa fa-info-circle fa-pull-center fa-2x"></span></a></li>
+              <li><a href="#pageNews"><span class="fa fa-star fa-pull-center fa-2x"></span></a></li>
+              <li><a href="#pageStats"><span class="fa fa-line-chart fa-pull-center fa-2x"></span></a></li>
+              <li><a href="#pageMap"><span class="fa fa-map-marker fa-pull-center fa-2x"></span></a></li>
+            </ul>
+          </div>
+          
+
+        </div>
+        <!--=== end of header ===-->
+
+        <!--=== start of content ===-->
+        <div data-role="content">
+          <div id="status"></div>
+          <select data-theme="a">
+            <option selected disabled>Choose Province</option>
+            <option value="sample">Province</option>
+            <option>Province</option>
+            <option>Province</option>
+            <option>Province</option>
+            <option>Province</option>
+            <option>Province</option>
+            <option>Province</option>
+          </select>
+
+          <select data-theme="a">
+            <option selected disabled>Choose Presidentiable</option>
+            <option>Province</option>
+            <option>Province</option>
+            <option>Province</option>
+            <option>Province</option>
+            <option>Province</option>
+            <option>Province</option>
+            <option>Province</option>
+          </select>
+          <!-- <img src="image/binay.jpg" class="img-thumbnail" alt="Thumbnail Image" id="binay" style="max-width:30%;max-height:45%;">
+      -->
+          <p>sample
+        </p>
+
+        
+
+      <script>
+      function fbLogout() {
+              FB.logout(function (response) {
+                  //Do what ever you want here when logged out like reloading the page
+                  location.href="index.html";
+              });
+          }
+      </script>
+
+        <button onclick="javascript:fbLogout();">Logout</button>
+        </div>
+
+        <!--=== end of content ===-->
+
+        <!--===Start of footer and navbar===-->
+        <div data-role="footer" data-position="fixed">
+          <img src="image/hala2016_cover.jpg" id="banner" style="max-width:100%;max-height:100%;"/>
+          
+        </div>
+        <!--===end of footer and navbar===-->
+
+       </div>
+      <!-- ======================= end of voting page ==================================-->
+
+       <!-- ======================= start of Learnmore page ================================-->
+       <div data-role="page" id="pageLearn" data-theme="f">
+      
+      <!--=== start of header ===-->
+      <div data-role="header" data-position="fixed">
+        <h1><img src="image/hala2016logo.png">Hala2016</h1>
+        <div data-role="navbar">
+          <ul>
+            <li><a href="#pageVote"><span class="fa fa-thumbs-up fa-pull-center fa-2x"></span></a></li>
+            <li><a href="#"><span class="fa fa-info-circle fa-pull-center fa-2x"></span></a></li>
+            <li><a href="#pageNews"><span class="fa fa-star fa-pull-center fa-2x"></span></a></li>
+            <li><a href="#pageStats"><span class="fa fa-line-chart fa-pull-center fa-2x"></span></a></li>
+            <li><a href="#pageMap"><span class="fa fa-map-marker fa-pull-center fa-2x"></span></a></li>
+          </ul>
+        </div>
+
+      </div>
+      <!--=== end of header ===-->
+
+      <!-- Start of content-->
+      <div data-role="content">
+    
+    <center><h4>Candidates in the Philippine presidential election, 2016</h4></center>
+
+    <ul class="list-group">
+      <center>
+
+      <li class="list-group-item">
+        <img src="image/binay.jpg" class="img-thumbnail" alt="Jejomat Binay" id="binay" style="max-width:50%;max-height:50%;"/>
+        <h5 class="list-group-item-heading">Jejomar Binay</h5>
+        <p class="list-group-item-text">When questioned by the media at the Coconut Palace in September 2011, Vice President Jejomar Binay confirmed his plans of running as president.</p>
+        <a href="https://en.wikipedia.org/wiki/Candidates_in_the_Philippine_presidential_election,_2016">Read More</a>
+      </li>
+
+      <li class="list-group-item">
+        <img src="image/poe.jpg" class="img-thumbnail" alt="Grace Poe" id="grace" style="max-width:50%;max-height:50%;">
+        <h5 class="list-group-item-heading">Grace Poe</h5>
+        <p class="list-group-item-text">Grace Poe's surprising first-place finish in the 2013 Senate election made her a likely contender for the presidency but she dismissed any plans of running in April 2014, saying she was not considering "anything higher at this point."</p>
+        <a href="https://en.wikipedia.org/wiki/Candidates_in_the_Philippine_presidential_election,_2016">Read More</a>
+      </li>
+
+      <li class="list-group-item">
+        <img src="image/roxas.jpg" class="img-thumbnail" alt="Mar Roxas" id="roxas" style="max-width:50%;max-height:50%;">
+        <h5 class="list-group-item-heading">Mar Roxas</h5>
+        <p class="list-group-item-text">Senator Franklin Drilon said in January 2013 "In so far as the LP is concerned, [and] in so far as I am concerned, we believe that he is best qualified for 2016."</p>
+        <a href="https://en.wikipedia.org/wiki/Candidates_in_the_Philippine_presidential_election,_2016">Read More</a>
+      </li>
+      </center>
+    </ul>
+
+      </div>
+      <!-- End of content-->
+
+      <!-- Start of footer and navbar -->
+      <div data-role="footer" data-position="fixed">
+        <img src="image/hala2016_cover.jpg" id="banner" style="max-width:100%;max-height:100%;"/>
+      </div>
+      <!-- End of footer and navbar -->
+
+     </div>
+       <!-- ======================= end of voting page ==================================-->
+      <!-- ======================= start of News page ==================================-->
+        <div data-role="page" id="pageNews" data-theme="f">
+        
+        <!--=== start of header ===-->
+      <div data-role="header" data-position="fixed">
+          <h1><img src="image/hala2016logo.png">Hala2016</h1>
+          <div data-role="navbar">
+            <ul>
+              <li><a href="#pageVote"><span class="fa fa-thumbs-up fa-pull-center fa-2x"></span></a></li>
+              <li><a href="#pageLearn"><span class="fa fa-info-circle fa-pull-center fa-2x"></span></a></li>
+              <li><a href="#"><span class="fa fa-star fa-pull-center fa-2x"></span></a></li>
+              <li><a href="#pageStats"><span class="fa fa-line-chart fa-pull-center fa-2x"></span></a></li>
+              <li><a href="#pageMap"><span class="fa fa-map-marker fa-pull-center fa-2x"></span></a></li>
+            </ul>
+          </div>
+
+        </div>
+        <!--=== end of header ===-->
+
+        <!-- Start of content-->
+        <div data-role="content">
+      <a class="twitter-timeline" href="https://twitter.com/hashtag/Hala2016" data-widget-id="649258366783520768">#Hala2016 Tweets</a>
+      <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+        </div>
+        <!-- End of content-->
+
+        <!-- Start of footer and navbar -->
+        <div data-role="footer" data-position="fixed">
+          <img src="image/hala2016_cover.jpg" id="banner" style="max-width:100%;max-height:100%;"/>
+        </div>
+        <!-- End of footer and navbar -->
+
+      </div>
+      <!-- ======================= end of News page =======================================-->
+
+    <!-- ======================= start of Statistics page ==================================-->
+        <div data-role="page" id="pageStats" data-theme="f">
+      
+      <!--=== start of header ===-->
+      <div data-role="header" data-position="fixed">
+        <h1><img src="image/hala2016logo.png">Hala2016</h1>
+        <div data-role="navbar">
+          <ul>
+            <li><a href="#pageVote"><span class="fa fa-thumbs-up fa-pull-center fa-2x"></span></a></li>
+            <li><a href="#pageLearn"><span class="fa fa-info-circle fa-pull-center fa-2x"></span></a></li>
+            <li><a href="#pageNews"><span class="fa fa-star fa-pull-center fa-2x"></span></a></li>
+            <li><a href="#"><span class="fa fa-line-chart fa-pull-center fa-2x"></span></a></li>
+            <li><a href="#pageMap"><span class="fa fa-map-marker fa-pull-center fa-2x"></span></a></li>
+          </ul>
+        </div>
+      </div>
+      <!--=== end of header ===-->  
+
+      <!-- Start of content-->
+      <div data-role="content">
+        <div id="canvas-holder" >
+      <canvas id="chart-area" width="300" height="300"/>
     </div>
-  </div><!--end of content-->
+        
+      </div>
+      <!-- End of content-->
 
-  <div data-role="footer" data-position="fixed">
-    <div data-role="navbar">
-    <ul>
-      <li><a href="#NewsFeed" class="ui-btn-active">News Feed</a></li>
-      <li><a href="#VotingPage">Voting Page:</a></li>
-      <li><a href="#StatisticsPage">Statistics Page:</a></li>
-      <li><a href="#HeatMapPage" >Heat Map Page:</a></li>
-    </ul>
-    </div><!-- /navbar -->
-  </div><!-- end of footer-->
+      <!-- Start of footer and navbar -->
+      <div data-role="footer" data-position="fixed">
+        <img src="image/hala2016_cover.jpg" id="banner" style="max-width:100%;max-height:100%;"/>
+      </div>
+      <!-- End of footer and navbar -->
 
+     </div>
+    <!-- ======================= end of Statistics page =======================================-->
 
-</div><!--end of NewsFeed-->
+     <!-- ======================= start of Map page ==================================-->
+        <div data-role="page" id="pageMap" data-theme="f">
+      
+      <!--=== start of header ===-->
+      <div data-role="header" data-position="fixed">
+        <h1><img src="image/hala2016logo.png">Hala2016</h1>
+        <div data-role="navbar">
+          <ul>
+            <li><a href="#pageVote"><span class="fa fa-thumbs-up fa-pull-center fa-2x"></span></a></li>
+            <li><a href="#pageLearn"><span class="fa fa-info-circle fa-pull-center fa-2x"></span></a></li>
+            <li><a href="#pageNews"><span class="fa fa-star fa-pull-center fa-2x"></span></a></li>
+            <li><a href="#pageStats"><span class="fa fa-line-chart fa-pull-center fa-2x"></span></a></li>
+            <li><a href="#"><span class="fa fa-map-marker fa-pull-center fa-2x"></span></a></li>
+          </ul>
+        </div>
+        
+      </div>
+      <!--=== end of header ===-->
 
-<!-- =============================================voting=========================================================-->
+      <!-- Start of content-->
+      <div data-role="content">
+        <div id="map-container"></div>
+      </div>
+      <!-- End of content-->
 
-<div data-role="page" id="VotingPage" data-theme="a"  data-transition="none">
+      <!-- Start of footer and navbar -->
+      <div data-role="footer" data-position="fixed">
+        <img src="image/hala2016_cover.jpg" id="banner" style="max-width:100%;max-height:100%;"/>
+      </div>
+      <!-- End of footer and navbar -->
 
+     </div>
+    <!-- ======================= end of Map page =======================================-->
+  <script src="http://maps.google.com/maps/api/js?sensor=false"></script>
+  <script src="js/tweecool.min.js"></script>
+  <script src="js/heatmap.min.js"></script>
+  <script src="js/gmaps-heatmap.js"></script>
+  <script>  
+ 
+    /*  function init_map() {
+    var var_location = new google.maps.LatLng(14.8333, 120.2833);
+ 
+        var var_mapoptions = {
+          center: var_location,
+          zoom: 13,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+ 
+    var var_marker = new google.maps.Marker({
+      position: var_location,
+      map: var_map,
+      title:"Center"});
+ 
+        var var_map = new google.maps.Map(document.getElementById("map-container"),var_mapoptions);
+ 
+    var_marker.setMap(var_map); 
+    
+    heatmap = new HeatmapOverlay(var_map, 
+              {
+              // radius should be small ONLY if scaleRadius is true (or small radius is intended)
+              "radius": .007,
+              "maxOpacity": 1, 
+              // scales the radius based on map zoom
+              "scaleRadius": true, 
+              // if set to false the heatmap uses the global maximum for colorization
+              // if activated: uses the data maximum within the current map boundaries 
+              //   (there will always be a red spot with useLocalExtremas true)
+              "useLocalExtrema": true,
+              // which field name in your data represents the latitude - default "lat"
+              latField: 'lat',
+              // which field name in your data represents the longitude - default "lng"
+              lngField: 'lng',
+              // which field name in your data represents the data value - default "value"
+              valueField: 'count'
+              }
+            );
 
-  <div data-role="content">
-    <h1>VotingPage</h1>
-  </div><!--end of content-->
+            var testData = {
+              max: 16,
+              data: [{lat: 14.8333, lng:120.2833, count: 8}, {lat: 14.8541, lng:120.3132, count: 10}, {lat: 14.8676, lng:120.2675, count: 5}  ]
+            };
 
-  <div data-role="footer" data-position="fixed">
-    <div data-role="navbar">
-    <ul>
-      <li><a href="#NewsFeed" >News Feed</a></li>
-      <li><a href="#VotingPage"class="ui-btn-active">Voting Page:</a></li>
-      <li><a href="#StatisticsPage">Statistics Page:</a></li>
-      <li><a href="#HeatMapPage" >Heat Map Page:</a></li>
-    </ul>
-    </div><!-- /navbar -->
-  </div><!-- end of footer-->
-
-
-
-</div><!-- end of VotingPage-->
-
-<!-- ============================================StatisticsPage====================================================-->
-
-<div data-role="page" id="StatisticsPage" data-theme="a"  data-transition="none">
-
-  <div id="canvas-holder">
-    <canvas id="chart-area" width="500" height="500"/>
-  </div>
-  
-
-  <div data-role="footer" data-position="fixed">
-    <div data-role="navbar">
-    <ul>
-      <li><a href="#NewsFeed" >News Feed</a></li>
-      <li><a href="#VotingPage">Voting Page:</a></li>
-      <li><a href="#StatisticsPage"class="ui-btn-active">Statistics Page:</a></li>
-      <li><a href="#HeatMapPage" >Heat Map Page:</a></li>
-    </ul>
-    </div><!-- /navbar -->
-  </div><!-- end of footer-->
-
-
-</div><!--end of StatisticsPage-->
-
-<!-- ============================================HeatMapPage====================================================-->
-
-<div data-role="page" id="HeatMapPage" data-theme="a"  data-transition="none">
-  
-
-
-  <div data-role="content">
-    <h1>HeatMapPage</h1>
-  </div><!--end of content-->
-
-  <div data-role="footer" data-position="fixed">
-    <div data-role="navbar">
-    <ul>
-      <li><a href="#NewsFeed" >News Feed</a></li>
-      <li><a href="#VotingPage">Voting Page:</a></li>
-      <li><a href="#StatisticsPage">Statistics Page:</a></li>
-      <li><a href="#HeatMapPage" class="ui-btn-active">Heat Map Page:</a></li>
-    </ul>
-    </div><!-- /navbar -->
-  </div><!-- end of footer-->
-
-</div><!--end of  HeatMapPage-->
-
-</body>
-<!-- end of body-->
+            heatmap.setData(testData);
+ 
+      }
+ 
+      google.maps.event.addDomListener(window, 'load', init_map); 
+      */
+ 
+  </body>
 </html>
