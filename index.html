@@ -16,60 +16,68 @@
         #map-container { height: 300px }
         </style>
     
-    <script src="js/Chart.min.js"></script>
+    <script src="js/Chart.js"></script>
     <script src="js/jquery.js"></script>
     <script src="js/jquery.min.js"></script>
+    <script>
+
+        var myDoughnut;
+        $(document).on( "pageshow", "#pageStats", function() {
+                if (myDoughnut == null){
+                    var data =[
+              {
+                value: 300,
+                color:"#F7464A",
+                highlight: "#FF5A5E",
+                label: "Red"
+              },
+              {
+                value: 50,
+                color: "#46BFBD",
+                highlight: "#5AD3D1",
+                label: "Green"
+              },
+              {
+                value: 100,
+                color: "#FDB45C",
+                highlight: "#FFC870",
+                label: "Yellow"
+              },
+              {
+                value: 40,
+                color: "#949FB1",
+                highlight: "#A8B3C5",
+                label: "Grey"
+              },
+              {
+                value: 120,
+                color: "#4D5360",
+                highlight: "#616774",
+                label: "Dark Grey"
+              }
+
+            ];
+                };
+                
+                    var ctx = document.getElementById("chart-area").getContext("2d");
+                
+                    window.myDoughnut = new Chart(ctx).Doughnut(data, {responsive : true});
+                });
+
+    </script>
+
     <script src="js/jquery.mobile-1.4.0-rc.1.js"></script>
     <script src="js/responsiveImg.js"></script>
-    
 
-    
     <script>
       $("#banner").responsiveImg();
       $("#binay").responsiveImg();
       $("#grace").responsiveImg();
       $("#roxas").responsiveImg();
-     
+    </script>
+    <script>
 
-      var doughnutData = [
-          {
-            value: 300,
-            color:"#F7464A",
-            highlight: "#FF5A5E",
-            label: "Red"
-          },
-          {
-            value: 50,
-            color: "#46BFBD",
-            highlight: "#5AD3D1",
-            label: "Green"
-          },
-          {
-            value: 100,
-            color: "#FDB45C",
-            highlight: "#FFC870",
-            label: "Yellow"
-          },
-          {
-            value: 40,
-            color: "#949FB1",
-            highlight: "#A8B3C5",
-            label: "Grey"
-          },
-          {
-            value: 120,
-            color: "#4D5360",
-            highlight: "#616774",
-            label: "Dark Grey"
-          }
 
-        ];
-
-        window.onload = function(){
-          var ctx = document.getElementById("chart-area").getContext("2d");
-          window.myDoughnut = new Chart(ctx).Doughnut(doughnutData, {responsive : true});
-        };
- /*
       // This is called with the results from from FB.getLoginStatus().
         function statusChangeCallback(response) {
           console.log('statusChangeCallback');
@@ -157,6 +165,30 @@
 
   <body>
 
+    <!-- ======================= start of index page ================================-->
+    <div data-role="page" id="pageIndex" data-theme="g">
+      
+      <!--=== start of header ===-->
+      <div data-role="header" data-position="fixed">
+        <h1><img src="image/hala2016logo.png">Hala2016</h1>
+      </div>
+      <!--=== end of header ===-->
+
+
+      <!--=== start of content ===-->
+      <div data-role="content">
+        <center>
+          <fb:login-button scope="public_profile,email" onlogin="checkLoginState();"></fb:login-button>
+          </center>
+      </div>
+      <!--=== end of content ===-->
+
+      <!--=== start of content ===-->
+      <div data-role="footer">
+        <h1> </h1>
+      </div>
+      
+    </div>
     <!-- ======================= end of index page ================================-->
 
       <!-- ======================= start of voting page ================================-->
@@ -225,7 +257,7 @@
         <!--=== end of content ===-->
 
         <!--===Start of footer and navbar===-->
-        <div data-role="footer" data-position="fixed">
+        <div data-role="footer">
           <img src="image/hala2016_cover.jpg" id="banner" style="max-width:100%;max-height:100%;"/>
           
         </div>
@@ -322,7 +354,7 @@
         <!-- End of content-->
 
         <!-- Start of footer and navbar -->
-        <div data-role="footer" data-position="fixed">
+        <div data-role="footer">
           <img src="image/hala2016_cover.jpg" id="banner" style="max-width:100%;max-height:100%;"/>
         </div>
         <!-- End of footer and navbar -->
@@ -358,7 +390,7 @@
       <!-- End of content-->
 
       <!-- Start of footer and navbar -->
-      <div data-role="footer" data-position="fixed">
+      <div data-role="footer">
         <img src="image/hala2016_cover.jpg" id="banner" style="max-width:100%;max-height:100%;"/>
       </div>
       <!-- End of footer and navbar -->
@@ -392,7 +424,7 @@
       <!-- End of content-->
 
       <!-- Start of footer and navbar -->
-      <div data-role="footer" data-position="fixed">
+      <div data-role="footer">
         <img src="image/hala2016_cover.jpg" id="banner" style="max-width:100%;max-height:100%;"/>
       </div>
       <!-- End of footer and navbar -->
