@@ -23,20 +23,6 @@
 		<script src="js/jquery.js"></script>
 		<script src="js/jquery.min.js"></script>
 		<script>
-			$(document).ready(function(){
-				$.ajax({
-						type: 'GET',
-							url:'chart.html',
-							dataType: 'html',
-							data:{},
-							success: function(data){
-								if(data){
-									$('#canvas-holder').html(data);
-								}
-							}
-				});
-
-			});
 			/* ==============================================
 				START VARIABLE AND FUNCTION FOR CHART
 		   	============================================== */
@@ -431,8 +417,49 @@
 
 	      <!-- Start of content-->
 	      	<div data-role="content">
+	      		<script>
+	      		var a = parseInt(localStorage.getItem('poe_vote').length);
+	            var b = parseInt(localStorage.getItem('binay_vote').length);
+	            var c = parseInt(localStorage.getItem('roxas_vote').length);
+	            var d = a+b+c;
+	            var aa = (a/d) * 100;
+	            var bb = (b/d) * 100;
+	            var cc = (c/d) * 100;
+	            var myDoughnut;
+
+	      		var data =[
+                        {
+                            value: aa,
+                            color:"#F7464A",
+                            highlight: "#FF5A5E",
+                            label: "Grace Poe"
+                        },
+                        {
+                            value: bb,
+                            color: "#46BFBD",
+                            highlight: "#5AD3D1",
+                            label: "Jejomar Binay"
+                        },
+                        {
+                            value: cc,
+                            color: "#FDB45C",
+                            highlight: "#FFC870",
+                            label: "Mar Roxas"
+                        },
+                    
+                    ];
+                    
+	      		$(document).ready(function(){
+	      			$('#showChart').click(function(){
+						var ctx = document.getElementById("chart-area").getContext("2d");
+						window.myDoughnut = new Chart(ctx).Doughnut(data, {responsive : true});
+	      			});
+	      		});
+	      		</script>
+	      		<button id="showChart">LOAD
+	      		</button>
 	      		<div id="canvas-holder" >
-					
+	      			<canvas id="chart-area" width="300" height="300"/>
 				</div>      	
 	     	</div>
 	      <!-- End of content-->
@@ -542,7 +569,6 @@
 				SCRIPT AND FUNCTION FOR HITMAP
 		============================================
 		<script src="http://maps.google.com/maps/api/js?sensor=false"></script>-->
-		<script src="js/tweecool.min.js"></script>
 		<!-- <script src="js/heatmap.min.js"></script>
 		<script src="js/gmaps-heatmap.js"></script>-->
 		<script>	
