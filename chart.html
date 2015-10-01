@@ -5,41 +5,47 @@
         <title>Chart.js demo</title>
         <!-- import plugin script -->
         <script src='js/Chart.min.js'></script>
+        <script>
+        var a = parseInt(localStorage.getItem('poe_vote').length);
+            var b = parseInt(localStorage.getItem('binay_vote').length);
+            var c = parseInt(localStorage.getItem('roxas_vote').length);
+            var d = a+b+c;
+            var aa = (a/d) * 100;
+            var bb = (b/d) * 100;
+            var cc = (c/d) * 100;
+            var myDoughnut;
+
+                $(document).on('pageshow','#pageStats',function() {
+                    if (myDoughnut == null){
+                    var data =[
+                        {
+                            value: aa,
+                            color:"#F7464A",
+                            highlight: "#FF5A5E",
+                            label: "Grace Poe"
+                        },
+                        {
+                            value: bb,
+                            color: "#46BFBD",
+                            highlight: "#5AD3D1",
+                            label: "Jejomar Binay"
+                        },
+                        {
+                            value: cc,
+                            color: "#FDB45C",
+                            highlight: "#FFC870",
+                            label: "Mar Roxas"
+                        },
+                    
+                    ];
+                    };
+                        
+                        var ctx = document.getElementById("chart-area").getContext("2d");
+                        window.myDoughnut = new Chart(ctx).Doughnut(data, {responsive : true});
+                });
+        </script>
     </head>
     <body>
-
-        <canvas id="countries" width="600" height="400"></canvas>
-        <!-- bar chart canvas element -->
-        <script>
-            // pie chart data
-            var pieData = [
-                {
-                    value: 20,
-                    color:"#878BB6"
-                },
-                {
-                    value : 40,
-                    color : "#4ACAB4"
-                },
-                {
-                    value : 10,
-                    color : "#FF8153"
-                },
-                {
-                    value : 30,
-                    color : "#FFEA88"
-                }
-            ];
-            // pie chart options
-            var pieOptions = {
-                 animateScale : true
-            }
-            // get pie chart canvas
-            var countries= document.getElementById("countries").getContext("2d");
-            // draw pie chart
-            new Chart(countries).Pie(pieData, pieOptions);
-            // bar chart data
-            
-        </script>
+        <canvas id="chart-area" width="300" height="300"/>
     </body>
 </html>

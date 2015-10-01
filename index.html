@@ -8,7 +8,7 @@
 		<link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
 		<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css" />
 		
-		<!-- ============== STYLING FOR CHART ================ -->
+		<!-- ============== STYLING FOR CHART ================= -->
 		<style type="text/css">
 			#map-outer {  height: 440px; 
 		  				padding: 20px; 
@@ -23,55 +23,32 @@
 		<script src="js/jquery.js"></script>
 		<script src="js/jquery.min.js"></script>
 		<script>
+			$(document).ready(function(){
+				$.ajax({
+						type: 'GET',
+							url:'chart.html',
+							dataType: 'html',
+							data:{},
+							success: function(data){
+								if(data){
+									$('#canvas-holder').html(data);
+								}
+							}
+				});
 
+			});
 			/* ==============================================
 				START VARIABLE AND FUNCTION FOR CHART
 		   	============================================== */
-			var a = parseInt(localStorage.getItem('poe_vote').length);
-			var b = parseInt(localStorage.getItem('binay_vote').length);
-			var c = parseInt(localStorage.getItem('roxas_vote').length);
-			var d = a+b+c;
-			var aa = (a/d) * 100;
-			var bb = (b/d) * 100;
-			var cc = (c/d) * 100;
-			var myDoughnut;
+			
 
-				$(document).on('pageshow','#pageStats',function() {
-				    if (myDoughnut == null){
-				    var data =[
-						{
-							value: aa,
-							color:"#F7464A",
-							highlight: "#FF5A5E",
-							label: "Grace Poe"
-						},
-						{
-							value: bb,
-							color: "#46BFBD",
-							highlight: "#5AD3D1",
-							label: "Jejomar Binay"
-						},
-						{
-							value: cc,
-							color: "#FDB45C",
-							highlight: "#FFC870",
-							label: "Mar Roxas"
-						},
-					
-					];
-				    };
-				        
-				        var ctx = document.getElementById("chart-area").getContext("2d");
-				        window.myDoughnut = new Chart(ctx).Doughnut(data, {responsive : true});
-				});
-
-		  	/* ==============================================
+		  	/* =============================================
 				END VARIABLE AND FUNCTION FOR CHART
 		  	============================================== */
 
 
 				$(document).ready(function(){
-					/* ==============================================
+					/* =============================================
 						START OF ADDING VOTE FUNCTION
 		  			============================================== */
 					$('#btnVote').click(function(){
@@ -89,7 +66,7 @@
 							}
 						});
 					});
-					/* ==============================================
+					/* =============================================
 						END OF ADDING VOTE FUNCTION
 		  			============================================== */
 
@@ -209,9 +186,6 @@
 	</head>
 
 	<body>
-
-		
-
 		<!--===========================================
 					START OF VOTING PAGE
 		============================================-->
@@ -458,7 +432,7 @@
 	      <!-- Start of content-->
 	      	<div data-role="content">
 	      		<div id="canvas-holder" >
-					<canvas id="chart-area" width="300" height="300"/>
+					
 				</div>      	
 	     	</div>
 	      <!-- End of content-->
