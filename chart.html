@@ -4,9 +4,9 @@
         <meta charset="utf-8" />
         <title>Chart.js demo</title>
         <!-- import plugin script -->
-        <script src='js/Chart.min.js'></script>
+       
         <script>
-        var a = parseInt(localStorage.getItem('poe_vote').length);
+            var a = parseInt(localStorage.getItem('poe_vote').length);
             var b = parseInt(localStorage.getItem('binay_vote').length);
             var c = parseInt(localStorage.getItem('roxas_vote').length);
             var d = a+b+c;
@@ -15,7 +15,7 @@
             var cc = (c/d) * 100;
             var myDoughnut;
 
-                $(document).on('pageshow','#pageStats',function() {
+                $(document).on('pageshow',function() {
                     if (myDoughnut == null){
                     var data =[
                         {
