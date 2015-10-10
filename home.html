@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1"> 
+        <link rel="stylesheet" type="text/css" href="css/jquery.mobile.flatui.css" />
+        <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+        <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css" />
+        <style>
+              html, body {
+                height: 100%;
+                margin: 0;
+                padding: 0;
+              }
+              #map {
+                height: 350px;
+              }
+        #floating-panel {
+          position: absolute;
+          top: 10px;
+          left: 25%;
+          z-index: 5;
+          background-color: #fff;
+          padding: 5px;
+          border: 1px solid #999;
+          text-align: center;
+          font-family: 'Roboto','sans-serif';
+          line-height: 30px;
+          padding-left: 10px;
+        }
+
+              #floating-panel {
+                background-color: #fff;
+                border: 1px solid #999;
+                left: 25%;
+                padding: 5px;
+                position: absolute;
+                top: 10px;
+                z-index: 5;
+              }
+            </style>
+        
+        <script src="js/Chart.min.js"></script>
+        <script src="js/jquery.js"></script>
+        <script src="js/jquery.min.js"></script>
+        <script>
+            /* ==============================================
+                START VARIABLE AND FUNCTION FOR CHART
+            ============================================== */
+            
+
+            /* =============================================
+                END VARIABLE AND FUNCTION FOR CHART
+            ============================================== */
+
+
+                $(document).ready(function(){
+                    var UserName = localStorage.getItem('appUser');
+                    
+                    /* =============================================
+                        START OF ADDING VOTE FUNCTION
+                    ============================================== */
+                    $('#btnVote').click(function(){
+                        var form = $('#frmVote').serialize();
+                        $.ajax({
+                            type: 'POST',
+                            url:'http://www.iligtas.ph/eliza/panget/vote.php',
+                            data: form+"&UserName="+UserName,
+                            success: function(data){
+                                if(data){
+                                    location.href ="index.html#pageVote";
+                                    location.reload();
+                                }
+                            }
+                        });
+                    });
+                    /* =============================================
+                        END OF ADDING VOTE FUNCTION
+                    ============================================== */
+
+                    /* =============================================
+                        START OF SHOWING VOTE FUNCTION
+                    ============================================== */
+                    var province = localStorage.getItem('UserProvince');
+                    var president = localStorage.getItem('UserPresident');
+                        $.ajax({
+                        type: 'GET',
+                        url:'http://www.iligtas.ph/eliza/panget/getVote.php',
+                        dataType:'html',
+                        data: "user="+UserName,
+                        success: function(data){
+                            if(data){
+                            $('#divRecord').html(data);
+                            }
+                        }
+                    });
+                    /* =============================================
+                        END OF SHOWING VOTE FUNCTION
+                    ============================================== */
+
+                    
+
+                    $('#btnLogout').click(function(){
+                        window.localStorage.clear();
+                    });
+
+                    
+
+                });
+        </script>
+
+        <script src="js/jquery.mobile-1.4.0-rc.1.js"></script>
+        <script src="js/responsiveImg.js"></script>
+
+
+        <!--===========================================
+                SCRIPT FOR RESPONSIVE IMAGES
+        ============================================-->
+        <script>
+            $("#banner").responsiveImg();
+            $("#binay").responsiveImg();
+            $("#grace").responsiveImg();
+            $("#roxas").responsiveImg();
+            $("#bong").responsiveImg();
+            $("#cayetano").responsiveImg();
+            $("#Chiz").responsiveImg();
+            $("#Duterte").responsiveImg();
+            $("#gibo").responsiveImg();
+            $("#Lacson").responsiveImg();
+            $("#marcos").responsiveImg();
+
+        </script>
+        <!--===========================================
+                END SCRIPT FOR RESPONSIVE IMAGES
+        ============================================-->
+
+
+        <!--===========================================
+                SCRIPT FOR FACEBOOK LOGIN
+        ============================================-->
+        <script>
+          window.fbAsyncInit = function() {
+            FB.init({
+              appId      : '1686082651604243',
+              xfbml      : true,
+              version    : 'v2.4'
+            });
+          };
+
+          (function(d, s, id){
+             var js, fjs = d.getElementsByTagName(s)[0];
+             if (d.getElementById(id)) {return;}
+             js = d.createElement(s); js.id = id;
+             js.src = "//connect.facebook.net/en_US/sdk.js";
+             fjs.parentNode.insertBefore(js, fjs);
+           }(document, 'script', 'facebook-jssdk'));
+        </script>
+        <script>
+
+        function fbLogoutUser() {
+            FB.getLoginStatus(function(response) {
+                if (response && response.status === 'connected') {
+                    FB.logout(function(response) {
+                    location.href = "index.html";
+                    });
+                }
+            });
+        }
+        </script>
+        <!--===========================================
+              END OF SCRIPT FOR FACEBOOK LOGIN
+        ============================================-->
+
+    </head>
+
+    <body>
+        <div data-role="page" id="index" data-theme="a"  data-transition="none">
+            <div data-role="header" data-position="fixed" data-theme="f">
+                <h1><img src="image/hala2016logo.png">Hala2016</h1>
+            </div>
+
+            <div data-role="content">
+                <center>
+                <fb:login-button scope="public_profile,email" onlogin="checkLoginState();" autologoutlink="true"></fb:login-button>
+                </center>
+            </div><!--end of content-->
+        </div><!--end of  HeatMapPage-->
+
+        <!--===========================================
+                    START OF VOTING PAGE
+        ============================================-->
+        <div data-role="page" id="pageVote" >
+          
+          <!--=== start of header ===-->
+          <div data-role="header" data-position="fixed" data-theme="f">
+            <h1><img src="image/hala2016logo.png">Hala2016</h1>
+            <div data-role="navbar">
+                <ul>
+                    <li><a href="#"><span class="fa fa-thumbs-up fa-pull-center fa-2x"></span></a></li>
+                    <li><a href="#pageLearn"><span class="fa fa-info-circle fa-pull-center fa-2x"></span></a></li>
+                    <li><a href="#pageNews"><span class="fa fa-star fa-pull-center fa-2x"></span></a></li>
+                    <li><a href="#pageStats"><span class="fa fa-line-chart fa-pull-center fa-2x"></span></a></li>
+                    <li><a href="#pageMap"><span class="fa fa-map-marker fa-pull-center fa-2x"></span></a></li>
+                </ul>
+            </div>
+            
+
+          </div>
+          <!--=== end of header ===-->
+
+          <!--=== start of content ===-->
+          <div data-role="content">
+            <div id="status"></div>
+            <br>
+
+            <div id="divVote">
+            <form id="frmVote">
+                <select data-theme="a" name="selProvince">
+                    <option selected disabled>Choose Province</option>
+                    <option  value="Aurora">Aurora</option>
+                    <option  value="Bataan">Bataan</option>
+                    <option  value="Nueva Ecija">Nueva Ecija</option>
+                    <option  value="Pampanga">Pampanga</option>
+                    <option  value="Tarlac">Tarlac</option>
+                    <option  value="Zambales">Zambales</option>
+                </select>
+
+                <select data-theme="a" name="selPresident">
+                    <option selected disabled>Choose Presidentiable</option>
+                    <option value="Jejomar Binay">Jejomar Binay</option>
+                    <option value="Grace Poe">Grace Poe</option>
+                    <option value="Mar Roxas">Mar roxas</option>
+                    <option value="Bong Revilla">Bong Revilla</option>
+                    <option value="Alan Petter Cayetano">Alan Petter Cayetano</option>
+                    <option value="Francis (Chiz) Escudero">Francis (Chiz) Escudero</option>
+                    <option value="Rodrigo Duterte">Rodrigo Duterte</option>
+                    <option value="Gilberto Teodoro">Gilberto Teodoro</option>
+                    <option value="Panfilo Lacson">Panfilo Lacson</option>
+                    <option value="Ferdinand Marcos">Ferdinand Marcos</option>
+                    <option value="Miriam Defensor Santiago">Miriam Defensor Santiago</option>
+                    <option value="Antonio Trillanes">Antonio Trillanes</option>
+
+                </select>
+            </form>
+            <button id="btnVote">Vote</button>
+            </div>
+            <script>
+            function fbLogout() {
+                    FB.logout(function (response) {
+                        //Do what ever you want here when logged out like reloading the page
+                        location.href="index.html";
+                    });
+                }
+            </script>
+
+            <div ="divVoted">
+                <div id="divRecord"></div>
+                
+                <a data-role="button" data-rel="dialog" href="#pgUpdate" data-transition="flip">Update</a>
+            </div>
+            <button id="btnLogout" onclick="javascript:fbLogout();">Logout</button>
+          </div>
+
+          <!--=== end of content ===-->
+
+          <!--===Start of footer and navbar===-->
+          <div data-role="footer">
+            <img src="image/hala2016_cover.jpg" id="banner" style="max-width:100%;max-height:100%;"/>
+            
+          </div>
+          <!--===end of footer and navbar===-->
+
+         </div>
+
+        <!--===========================================
+                    END OF VOTING PAGE
+        ============================================-->
+
+        <style>
+            #btnUpdate{
+                width : 60%;
+
+            }
+        </style>
+        <script>
+            $(document).ready(function( ){
+                var user = $("#current_user").val(localStorage.getItem('appUser'));
+                var currentprovince = $("#selectUpdateProvince").val(localStorage.getItem('UserProvince'));
+                var currentpresident = $("#selectUpdatePresident").val(localStorage.getItem('UserPresident'));
+
+                $("#btnUpdate").click(function(){
+
+                    $.ajax({
+                        type : 'POST',
+                        url : 'http://www.iligtas.ph/eliza/panget/voteUpdate.php', 
+                        data : $("#frmUpdate").serialize(),
+                        dataType : 'html',
+                        success : function(eliza){
+                            if(eliza){
+                                alert('Successfully Updated');
+                                location.href = "#pageVote";
+                                location.reload();
+                            }   
+                        }
+                    });
+                    var province = localStorage.getItem('UserProvince');
+                    var president = localStorage.getItem('UserPresident');
+
+                });
+
+            });
+        </script>
+        <div data-role="page" id="pgUpdate">
+            <div data-role="header">
+                <h1>Update</h1>
+            </div>
+
+            <div data-role="content">
+                <form id="frmUpdate">
+                    <input type="text" readonly id="current_user" name="current_user"/>
+                    <select id="selectUpdateProvince" name="selectUpdateProvince">
+                        <option selected disabled>Choose Province</option>
+                        <option value="Aurora">Aurora</option>
+                        <option value="Bataan">Bataan</option>
+                        <option value="Nueva Ecija">Nueva Ecija</option>
+                        <option value="Pampanga">Pampanga</option>
+                        <option value="Tarlac">Tarlac</option>
+                        <option value="Zambales">Zambales</option>
+                    </select>
+
+                    <select id="selectUpdatePresident" name="selectUpdatePresident" >
+                        <option selected disabled>Choose Presidentiable</option>
+                        <option value="Jejomar Binay">Jejomar Binay</option>
+                        <option value="Grace Poe">Grace Poe</option>
+                        <option value="Mar Roxas">Mar roxas</option>
+                        <option value="Bong Revilla">Bong Revilla</option>
+                        <option value="Alan Petter Cayetano">Alan Petter Cayetano</option>
+                        <option value="Francis (Chiz) Escudero">Francis (Chiz) Escudero</option>
+                        <option value="Rodrigo Duterte">Rodrigo Duterte</option>
+                        <option value="Gilberto Teodoro">Gilberto Teodoro</option>
+                        <option value="Panfilo Lacson">Panfilo Lacson</option>
+                        <option value="Ferdinand Marcos">Ferdinand Marcos</option>
+                        <option value="Miriam Defensor Santiago">Miriam Defensor Santiago</option>
+                        <option value="Antonio Trillanes">Antonio Trillanes</option>
+                    </select>
+                    <center>
+                        <button id="btnUpdate">Update</button>
+                    </center>
+                </form>
+            </div>
+        </div>
+<!----> 
+        <!--===========================================
+                   START OF LEARN MORE PAGE
+        ============================================-->
+        <div data-role="page" id="pageLearn" data-theme="f">
+  
+            <!--=== start of header ===-->
+            <div data-role="header" data-position="fixed">
+                <h1><img src="image/hala2016logo.png">Hala2016</h1>
+                <div data-role="navbar">
+                    <ul>
+                        <li><a href="#pageVote"><span class="fa fa-thumbs-up fa-pull-center fa-2x"></span></a></li>
+                        <li><a href="#"><span class="fa fa-info-circle fa-pull-center fa-2x"></span></a></li>
+                        <li><a href="#pageNews"><span class="fa fa-star fa-pull-center fa-2x"></span></a></li>
+                        <li><a href="#pageStats"><span class="fa fa-line-chart fa-pull-center fa-2x"></span></a></li>
+                        <li><a href="#pageMap"><span class="fa fa-map-marker fa-pull-center fa-2x"></span></a></li>
+                    </ul>
+                </div>
+            </div>
+            <!--=== end of header ===-->
+
+              <!-- Start of content-->
+              <div data-role="content">
+                <center><h4>Candidates in the Philippine presidential election, 2016</h4></center>
+                <ul class="list-group">
+                    <center>
+                    <li class="list-group-item">
+                        <img src="image/binay.jpg" class="img-thumbnail" alt="Jejomat Binay" id="binay" style="max-width:50%;max-height:50%;"/>
+                        <h5 class="list-group-item-heading">Jejomar Binay</h5>
+                        <p class="list-group-item-text">When questioned by the media at the Coconut Palace in September 2011, Vice President Jejomar Binay confirmed his plans of running as president.</p>
+                        <a href="https://en.wikipedia.org/wiki/Candidates_in_the_Philippine_presidential_election,_2016">Read More</a>
+                    </li>
+
+                    <li class="list-group-item">
+                        <img src="image/poe.jpg" class="img-thumbnail" alt="Grace Poe" id="grace" style="max-width:50%;max-height:50%;">
+                        <h5 class="list-group-item-heading">Grace Poe</h5>
+                        <p class="list-group-item-text">Grace Poe's surprising first-place finish in the 2013 Senate election made her a likely contender for the presidency but she dismissed any plans of running in April 2014, saying she was not considering "anything higher at this point."</p>
+                        <a href="https://en.wikipedia.org/wiki/Candidates_in_the_Philippine_presidential_election,_2016">Read More</a>
+                    </li>
+
+                    <li class="list-group-item">
+                        <img src="image/roxas.jpg" class="img-thumbnail" alt="Mar Roxas" id="roxas" style="max-width:50%;max-height:50%;">
+                        <h5 class="list-group-item-heading">Mar Roxas</h5>
+                        <p class="list-group-item-text">Senator Franklin Drilon said in January 2013 "In so far as the LP is concerned, [and] in so far as I am concerned, we believe that he is best qualified for 2016."</p>
+                        <a href="https://en.wikipedia.org/wiki/Candidates_in_the_Philippine_presidential_election,_2016">Read More</a>
+                    </li>
+
+                    <li class="list-group-item">
+                        <img src="image/bong.jpg" class="img-thumbnail" alt="Bong Revilla" id="bong" style="max-width:50%;max-height:50%;">
+                        <h5 class="list-group-item-heading">Bong Revilla</h5>
+                        <p class="list-group-item-text">Lakas-CMD vice-chairman, said that their party is likely considering Bong Revilla to be their candidate.</p>
+                        <a href="https://en.wikipedia.org/wiki/Candidates_in_the_Philippine_presidential_election,_2016">Read More</a>
+                    </li>
+
+                    <li class="list-group-item">
+                        <img src="image/cayetano.jpg" class="img-thumbnail" alt="Alan Peter Cayetano" id="cayetano" style="max-width:50%;max-height:50%;">
+                        <h5 class="list-group-item-heading">Alan Peter Cayetano</h5>
+                        <p class="list-group-item-text">"I want to be president of this country. I think I can do something great for God and his people."</p>
+                        <a href="https://en.wikipedia.org/wiki/Candidates_in_the_Philippine_presidential_election,_2016">Read More</a>
+                    </li>
+
+                    <li class="list-group-item">
+                        <img src="image/chiz.jpg" class="img-thumbnail" alt="Francis (Chiz) Escudero" id="Chiz" style="max-width:50%;max-height:50%;">
+                        <h5 class="list-group-item-heading">Francis (Chiz) Escudero</h5>
+                        <p class="list-group-item-text">"Let me be honest, candid, yet factual about it. I would be very interested in seeking a higher office in 2016 for the simple reason that I’m halfway through my last term."</p>
+                        <a href="https://en.wikipedia.org/wiki/Candidates_in_the_Philippine_presidential_election,_2016">Read More</a>
+                    </li>
+
+                    <li class="list-group-item">
+                        <img src="image/Duterte.jpg" class="img-thumbnail" alt="Rodrigo Duterte" id="Duterte" style="max-width:50%;max-height:50%;">
+                        <h5 class="list-group-item-heading">Rodrigo Duterte</h5>
+                        <p class="list-group-item-text">Davao City Mayor Rodrigo Duterte reportedly enjoys the support of several netizens who laud his performance, especially on maintaining peace and order but he was quick to shrug off calls for him to run as President on February 2014</p>
+                        <a href="https://en.wikipedia.org/wiki/Candidates_in_the_Philippine_presidential_election,_2016">Read More</a>
+                    </li>
+
+                    <li class="list-group-item">
+                        <img src="image/gibo.jpg" class="img-thumbnail" alt="Gilberto Teodoro" id="gibo" style="max-width:50%;max-height:50%;">
+                        <h5 class="list-group-item-heading">Gilberto Teodoro</h5>
+                        <p class="list-group-item-text">Lakas–CMD has indicated that it would likely nominate Senator Bong Revilla for President, but is also considering 2010 presidential candidate Gilberto Teodoro, Jr., who had retired from politics.</p>
+                        <a href="https://en.wikipedia.org/wiki/Candidates_in_the_Philippine_presidential_election,_2016">Read More</a>
+                    </li>
+
+                    <li class="list-group-item">
+                        <img src="image/lacson.jpg" class="img-thumbnail" alt="Panfilo Lacson" id="Lacson" style="max-width:50%;max-height:50%;">
+                        <h5 class="list-group-item-heading">Panfilo Lacson</h5>
+                        <p class="list-group-item-text">Local Government Secretary Mar Roxas acknowledged that Panfilo Lacson is qualified to run in for president, but there have been no talks on the latter joining the Liberal Party</p>
+                        <a href="https://en.wikipedia.org/wiki/Candidates_in_the_Philippine_presidential_election,_2016">Read More</a>
+                    </li>
+
+                    <li class="list-group-item">
+                        <img src="image/marcos.jpg" class="img-thumbnail" alt="Ferdinand Marcos" id="marcos" style="max-width:50%;max-height:50%;">
+                        <h5 class="list-group-item-heading">Ferdinand Marcos</h5>
+                        <p class="list-group-item-text">Ferdinand Marcos, Jr. said he is not closing his doors and “There’s a saying, ‘Never say never</p>
+                        <a href="https://en.wikipedia.org/wiki/Candidates_in_the_Philippine_presidential_election,_2016">Read More</a>
+                    </li>
+
+                    <li class="list-group-item">
+                        <img src="image/meriam.jpg" class="img-thumbnail" alt="Miriam Defensor Santiago" id="Miriam" style="max-width:50%;max-height:50%;">
+                        <h5 class="list-group-item-heading">Miriam Defensor Santiago</h5>
+                        <p class="list-group-item-text">By August 2015, Trillanes bared his plans of running as an independent vice presidential candidate, saying that the Nacionalistas would not endorse a candidate if more than one of them ran for the vice presidency</p>
+                        <a href="https://en.wikipedia.org/wiki/Candidates_in_the_Philippine_presidential_election,_2016">Read More</a>
+                    </li>
+
+                    <li class="list-group-item">
+                        <img src="image/trillianes.jpg" class="img-thumbnail" alt="Antonio Trillanes" id="Antonio" style="max-width:50%;max-height:50%;">
+                        <h5 class="list-group-item-heading">Antonio Trillanes</h5>
+                        <p class="list-group-item-text">Santiago, in a tweet, announced that "In the 2016 presidential elections, when I am rid of my lung cancer, I intend to claim the presidency I won in 1992." In a letter to the Senate, Santiago said that more than 90% of the cancer cells have regressed.</p>
+                        <a href="https://en.wikipedia.org/wiki/Candidates_in_the_Philippine_presidential_election,_2016 ">Read More</a>
+                    </li>
+                    </center>
+                </ul>
+              </div>
+             <!-- End of content-->
+
+            <!-- Start of footer and navbar -->
+            <div data-role="footer" data-position="fixed">
+                <img src="image/hala2016_cover.jpg" id="banner" style="max-width:100%;max-height:100%;"/>
+            </div>
+            <!-- End of footer and navbar -->
+
+        </div>
+
+        <!--===========================================
+                   END OF LEARN MORE PAGE
+        ============================================-->
+
+
+        <!--===========================================
+                START OF NEWS FEED FROM TWITTER
+        ============================================-->
+        <div data-role="page" id="pageNews" data-theme="f">
+          
+          <!--=== start of header ===-->
+            <div data-role="header" data-position="fixed">
+                <h1><img src="image/hala2016logo.png">Hala2016</h1>
+                <div data-role="navbar">
+                    <ul>
+                        <li><a href="#pageVote"><span class="fa fa-thumbs-up fa-pull-center fa-2x"></span></a></li>
+                        <li><a href="#pageLearn"><span class="fa fa-info-circle fa-pull-center fa-2x"></span></a></li>
+                        <li><a href="#"><span class="fa fa-star fa-pull-center fa-2x"></span></a></li>
+                        <li><a href="#pageStats"><span class="fa fa-line-chart fa-pull-center fa-2x"></span></a></li>
+                        <li><a href="#pageMap"><span class="fa fa-map-marker fa-pull-center fa-2x"></span></a></li>
+                    </ul>
+                </div>
+            </div>
+          <!--=== end of header ===-->
+
+          <!-- Start of content-->
+            <div data-role="content">
+                <a class="twitter-timeline" href="https://twitter.com/hashtag/Hala2016" data-widget-id="649258366783520768">#Hala2016 Tweets</a>
+                <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+            </div>
+          <!-- End of content-->
+
+          <!-- Start of footer and navbar -->
+            <div data-role="footer">
+                <img src="image/hala2016_cover.jpg" id="banner" style="max-width:100%;max-height:100%;"/>
+            </div>
+          <!-- End of footer and navbar -->
+
+        </div>
+        <!--===========================================
+                END OF NEWS FEED FROM TWITTER
+        ============================================-->
+
+
+        <!--===========================================
+                  START OF STATISTIC PAGE
+        ============================================-->
+        <div data-role="page" id="pageStats" data-theme="f">
+      
+          <!--=== start of header ===-->
+            <div data-role="header" data-position="fixed">
+                <h1><img src="image/hala2016logo.png">Hala2016</h1>
+                <div data-role="navbar">
+                    <ul>
+                        <li><a href="#pageVote"><span class="fa fa-thumbs-up fa-pull-center fa-2x"></span></a></li>
+                        <li><a href="#pageLearn"><span class="fa fa-info-circle fa-pull-center fa-2x"></span></a></li>
+                        <li><a href="#pageNews"><span class="fa fa-star fa-pull-center fa-2x"></span></a></li>
+                        <li><a href="#"><span class="fa fa-line-chart fa-pull-center fa-2x"></span></a></li>
+                        <li><a href="#pageMap"><span class="fa fa-map-marker fa-pull-center fa-2x"></span></a></li>
+                    </ul>
+                </div>
+            </div>
+          <!--=== end of header ===-->  
+
+          <!-- Start of content-->
+            <div data-role="content">
+                <script>
+                var poe = parseInt(localStorage.getItem('poe_vote').length);
+                var binay = parseInt(localStorage.getItem('binay_vote').length);
+                var roxas = parseInt(localStorage.getItem('roxas_vote').length);
+                var bong = parseInt(localStorage.getItem('bong_vote').length);
+                var alan = parseInt(localStorage.getItem('alan_vote').length);
+                var francis = parseInt(localStorage.getItem('Francis_vote').length);
+                var rodrigo = parseInt(localStorage.getItem('Rodrigo_vote').length);
+                var gilberto = parseInt(localStorage.getItem('Gilberto_vote').length);
+                var panfilo = parseInt(localStorage.getItem('Panfilo_vote').length);
+                var ferdinand = parseInt(localStorage.getItem('Ferdinand_vote').length);
+                var miriam = parseInt(localStorage.getItem('Miriam_vote').length);
+                var antonio = parseInt(localStorage.getItem('Antonio_vote').length);
+
+                var totalVote = 
+                poe +
+                binay +
+                roxas +
+                bong+
+                alan+
+                francis+
+                rodrigo+
+                gilberto+
+                panfilo+
+                ferdinand+
+                miriam+
+                antonio;
+
+                var apoe = (poe/totalVote) * 100;
+                var abinay = (binay/totalVote) * 100;
+                var aroxas = (roxas/totalVote) * 100;
+                var abong= (bong/totalVote) * 100;
+                var aalan= (alan/totalVote) * 100;
+                var afrancis= (francis/totalVote) * 100;
+                var arodrigo= (rodrigo/totalVote) * 100;
+                var agilberto= (gilberto/totalVote) * 100;
+                var apanfilo= (panfilo/totalVote) * 100;
+                var aferdinand= (ferdinand/totalVote) * 100;
+                var amiriam= (miriam/totalVote) * 100;
+                var aantonio= (antonio/totalVote) * 100;
+
+                var myDoughnut;
+
+                var data =[
+                        {
+                            value: apoe,
+                            color:"#F7464A",
+                            highlight: "#FF5A5E",
+                            label: "Grace Poe"
+                        },
+
+                        {
+                            value: abinay,
+                            color: "#46BFBD",
+                            highlight: "#5AD3D1",
+                            label: "Jejomar Binay"
+                        },
+
+                        {
+                            value: aroxas,
+                            color: "#FDB45C",
+                            highlight: "#FFC870",
+                            label: "Mar Roxas"
+                        },
+
+                        {
+                            value: abong,
+                            color: "#8A458A",
+                            highlight: "#FFC870",
+                            label: "Bong Revilla"
+                        },
+
+                        {
+                            value: aalan,
+                            color: "#116611",
+                            highlight: "#FFC870",
+                            label: "Alan Petter Cayetano"
+                        },
+
+                        {
+                            value: afrancis,
+                            color: "#D46A6A",
+                            highlight: "#FFC870",
+                            label: "Francis (Chiz) Escudero"
+                        },
+
+                        {
+                            value: arodrigo,
+                            color: "#449570",
+                            highlight: "#FFC870",
+                            label: "Rodrigo Duterte"
+                        },
+
+                        {
+                            value: agilberto,
+                            color: "#071F32",
+                            highlight: "#FFC870",
+                            label: "Gilberto Teodoro"
+                        },
+
+                        {
+                            value: apanfilo,
+                            color: "#66153E",
+                            highlight: "#FFC870",
+                            label: "Panfilo Lacson"
+                        },
+
+                        {
+                            value: aferdinand,
+                            color: "#FFE694",
+                            highlight: "#FFC870",
+                            label: "Ferdinand Marcos"
+                        },
+
+                        {
+                            value: amiriam,
+                            color: "#EF2525",
+                            highlight: "#FFC870",
+                            label: "Miriam Defensor"
+                        },
+
+                        {
+                            value: aantonio,
+                            color: "#7E65D0",
+                            highlight: "#FFC870",
+                            label: "Antonio Trillanes"
+                        },
+                    
+                    ];
+                    
+                $(document).ready(function(){
+                    $('#showChart').click(function(){
+                        var ctx = document.getElementById("chart-area").getContext("2d");
+                        window.myDoughnut = new Chart(ctx).Doughnut(data, {responsive : true});
+                    });
+                });
+                </script>
+                <button id="showChart">LOAD
+                </button>
+                <div id="canvas-holder" >
+                    <canvas id="chart-area" width="300" height="300"/>
+                </div>          
+            </div>
+          <!-- End of content-->
+
+          <!-- Start of footer and navbar -->
+            <div data-role="footer">
+                <img src="image/hala2016_cover.jpg" id="banner" style="max-width:100%;max-height:100%;"/>
+            </div>
+          <!-- End of footer and navbar -->
+
+         </div>
+        <!--===========================================
+                  END OF STATISTIC PAGE
+        ============================================-->
+
+
+        <!--===========================================
+                    START OF MAP PAGE 
+        ============================================-->
+        <div data-role="page" id="pageMap" data-theme="f">
+          
+          <!--=== start of header ===-->
+          <div data-role="header" data-position="fixed">
+            <h1><img src="image/hala2016logo.png">Hala2016</h1>
+            <div data-role="navbar">
+                <ul>
+                    <li><a href="#pageVote"><span class="fa fa-thumbs-up fa-pull-center fa-2x"></span></a></li>
+                    <li><a href="#pageLearn"><span class="fa fa-info-circle fa-pull-center fa-2x"></span></a></li>
+                    <li><a href="#pageNews"><span class="fa fa-star fa-pull-center fa-2x"></span></a></li>
+                    <li><a href="#pageStats"><span class="fa fa-line-chart fa-pull-center fa-2x"></span></a></li>
+                    <li><a href="#"><span class="fa fa-map-marker fa-pull-center fa-2x"></span></a></li>
+                </ul>
+            </div>
+            
+          </div>
+          <!--=== end of header ===-->
+
+          <!-- Start of content-->
+          <div data-role="content">
+                <script>
+                    $(document).ready(function(){
+                        $.ajax({
+                                type : 'GET',
+                                url : 'http://www.iligtas.ph/eliza/panget/poevote.php',
+                                data : {},
+                                dataType : 'html',
+                                success : function(poe){
+                                    if(poe){
+                                        localStorage.setItem('poe_vote',poe);   
+                                    }
+                                }
+                        });
+
+                        $.ajax({
+                                type : 'GET',
+                                url : 'http://www.iligtas.ph/eliza/panget/binayvote.php',
+                                data : {},
+                                dataType : 'html',
+                                success : function(binay){
+                                    if(binay){
+                                        localStorage.setItem('binay_vote',binay);   
+                                    }
+                                }
+                        });
+
+                        $.ajax({
+                                type : 'GET',
+                                url : 'http://www.iligtas.ph/eliza/panget/marvote.php',
+                                data : {},
+                                dataType : 'html',
+                                success : function(roxas){
+                                    if(roxas){
+                                        localStorage.setItem('roxas_vote',roxas);   
+                                    }
+                                }
+                        });
+
+                        $.ajax({
+                                type : 'GET',
+                                url : 'http://www.iligtas.ph/eliza/panget/bongvote.php',
+                                data : {},
+                                dataType : 'html',
+                                success : function(bong){
+                                    if(bong){
+                                        localStorage.setItem('bong_vote',bong); 
+                                    }
+                                }
+                        });
+
+                        $.ajax({
+                                type : 'GET',
+                                url : 'http://www.iligtas.ph/eliza/panget/allanvote.php',
+                                data : {},
+                                dataType : 'html',
+                                success : function(alan){
+                                    if(alan){
+                                        localStorage.setItem('alan_vote',alan); 
+                                    }
+                                }
+                        }); 
+
+                        $.ajax({
+                                type : 'GET',
+                                url : 'http://www.iligtas.ph/eliza/panget/FrancisVote.php',
+                                data : {},
+                                dataType : 'html',
+                                success : function(francis){
+                                    if(francis){
+                                        localStorage.setItem('Francis_vote',francis);   
+                                    }
+                                }
+                        }); 
+
+                        $.ajax({
+                                type : 'GET',
+                                url : 'http://www.iligtas.ph/eliza/panget/RodrigoVote.php',
+                                data : {},
+                                dataType : 'html',
+                                success : function(rodrigo){
+                                    if(rodrigo){
+                                        localStorage.setItem('Rodrigo_vote',rodrigo);   
+                                    }
+                                }
+                        });     
+
+                        $.ajax({
+                                type : 'GET',
+                                url : 'http://www.iligtas.ph/eliza/panget/GilbertoVote.php',
+                                data : {},
+                                dataType : 'html',
+                                success : function(gilberto){
+                                    if(gilberto){
+                                        localStorage.setItem('Gilberto_vote',gilberto); 
+                                    }
+                                }
+                        });     
+
+                        $.ajax({
+                                type : 'GET',
+                                url : 'http://www.iligtas.ph/eliza/panget/PanfiloVote.php',
+                                data : {},
+                                dataType : 'html',
+                                success : function(panfilo){
+                                    if(panfilo){
+                                        localStorage.setItem('Panfilo_vote',panfilo);   
+                                    }
+                                }
+                        });     
+
+                        $.ajax({
+                                type : 'GET',
+                                url : 'http://www.iligtas.ph/eliza/panget/FerdinandVote.php',
+                                data : {},
+                                dataType : 'html',
+                                success : function(ferdinand){
+                                    if(ferdinand){
+                                        localStorage.setItem('Ferdinand_vote',ferdinand);   
+                                    }
+                                }
+                        });     
+
+                        $.ajax({
+                                type : 'GET',
+                                url : 'http://www.iligtas.ph/eliza/panget/MiriamVote.php',
+                                data : {},
+                                dataType : 'html',
+                                success : function(miriam){
+                                    if(miriam){
+                                        localStorage.setItem('Miriam_vote',miriam); 
+                                    }
+                                }
+                        });     
+
+                        $.ajax({
+                                type : 'GET',
+                                url : 'http://www.iligtas.ph/eliza/panget/AntonioVote.php',
+                                data : {},
+                                dataType : 'html',
+                                success : function(antonio){
+                                    if(antonio){
+                                        localStorage.setItem('Antonio_vote',antonio);   
+                                    }
+                                }
+                        });
+
+                        $.ajax({
+                            type : 'GET',
+                            url : 'http://www.iligtas.ph/eliza/panget/Aurora.php',
+                            data : {},
+                            dataType : 'html',
+                            success : function(aurora){
+                              if(aurora){
+                                localStorage.setItem('Aurora_vote',aurora); 
+                              }
+                            }
+                        });
+
+                        $.ajax({
+                            type : 'GET',
+                            url : 'http://www.iligtas.ph/eliza/panget/Pampanga.php',
+                            data : {},
+                            dataType : 'html',
+                            success : function(pampanga){
+                              if(pampanga){
+                                localStorage.setItem('Pampanga_vote',pampanga); 
+                              }
+                            }
+                        }); 
+
+
+                        $.ajax({
+                            type : 'GET',
+                            url : 'http://www.iligtas.ph/eliza/panget/Tarlac.php',
+                            data : {},
+                            dataType : 'html',
+                            success : function(tarlac){
+                              if(tarlac){
+                                localStorage.setItem('Tarlac_vote',tarlac); 
+                              }
+                            }
+                        }); 
+
+                        $.ajax({
+                            type : 'GET',
+                            url : 'http://www.iligtas.ph/eliza/panget/NuevaEcija.php',
+                            data : {},
+                            dataType : 'html',
+                            success : function(Nueva){
+                              if(Nueva){
+                                localStorage.setItem('Nueva_vote',Nueva); 
+                              }
+                            }
+                        });
+
+                        $.ajax({
+                            type : 'GET',
+                            url : 'http://www.iligtas.ph/eliza/panget/Bataan.php',
+                            data : {},
+                            dataType : 'html',
+                            success : function(bataan){
+                              if(bataan){
+                                localStorage.setItem('Bataan_vote',bataan); 
+                              }
+                            }
+                        }); 
+
+
+                        $.ajax({
+                            type : 'GET',
+                            url : 'http://www.iligtas.ph/eliza/panget/Zambales.php',
+                            data : {},
+                            dataType : 'html',
+                            success : function(Zambales){
+                              if(Zambales){
+                                localStorage.setItem('Zambales_vote',Zambales); 
+                              }
+                            }
+                        });
+        
+                        $("#btnCount").click(function(){
+                            alert("Grace Poe : " +localStorage.getItem('poe_vote').length + " votes\n" + 
+                                "Jejomar Binay : " +localStorage.getItem('binay_vote').length + " votes\n" + 
+                                "Mar Roxas : " +localStorage.getItem('roxas_vote').length + " votes\n" + 
+                                "Bong Revilla : " +localStorage.getItem('bong_vote').length + " votes\n" + 
+                                "Alan Petter Cayetano : " +localStorage.getItem('alan_vote').length + " votes\n" + 
+                                "Francis (Chiz) Escudero : " +localStorage.getItem('Francis_vote').length + " votes\n" + 
+                                "Rodrigo Duterte : " +localStorage.getItem('Rodrigo_vote').length + " votes\n" + 
+                                "Gilberto Teodoro: " +localStorage.getItem('Gilberto_vote').length + " votes\n" + 
+                                "Panfilo Lacson : " +localStorage.getItem('Panfilo_vote').length + " votes\n" + 
+                                "Ferdinand Marcos : " +localStorage.getItem('Ferdinand_vote').length + " votes\n" + 
+                                "Miriam Defensor Santiago : " +localStorage.getItem('Miriam_vote').length + " votes\n" + 
+                                "Antonio Trillanes : " +localStorage.getItem('Antonio_vote').length + " votes\n"
+                                + "Aurora : " +localStorage.getItem('Aurora_vote').length + " votes\n"
+                                + "Pampanga : " +localStorage.getItem('Pampanga_vote').length + " votes\n"
+                                + "Tarlac : " +localStorage.getItem('Tarlac_vote').length + " votes\n"
+                                + "Nueva Ecija : " +localStorage.getItem('Nueva_vote').length + " votes\n"
+                                + "Bataan : " +localStorage.getItem('Bataan_vote').length + " votes\n"
+                                + "Zambales : " +localStorage.getItem('Zambales_vote').length + " votes\n" );
+                        });
+                    });
+                </script>
+                <!--CODE NI LARGO-->
+                
+
+                    <button id="btnCount">Count Vote</button>
+                
+
+                <script id="divCount">
+                </script>
+                <!--CODE NI LARGO-->
+
+                 <div id="map"></div>
+
+          </div>
+          <!-- End of content-->
+
+          <!-- Start of footer and navbar -->
+          <div data-role="footer">
+            <img src="image/hala2016_cover.jpg" id="banner" style="max-width:100%;max-height:100%;"/>
+          </div>
+          <!-- End of footer and navbar -->
+
+         </div>
+        <!--===========================================
+                    END OF MAP PAGE
+        ============================================-->
+
+
+        <!--===========================================
+                SCRIPT AND FUNCTION FOR HITMAP
+        ============================================-->
+        
+    
+    <script>
+
+        var map, heatmap;
+
+        function initMap() {
+          map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 8,
+            center: {lat: 14.8333, lng: 120.2833},
+          });
+
+          heatmap = new google.maps.visualization.HeatmapLayer({
+            data: getPoints(),
+            map: map
+          });
+        }
+
+
+        function changeGradient() {
+          var gradient = [
+            'rgba(0, 255, 255, 0)',
+            'rgba(0, 255, 255, 1)',
+            'rgba(0, 191, 255, 1)',
+            'rgba(0, 127, 255, 1)',
+            'rgba(0, 63, 255, 1)',
+            'rgba(0, 0, 255, 1)',
+            'rgba(0, 0, 223, 1)',
+            'rgba(0, 0, 191, 1)',
+            'rgba(0, 0, 159, 1)',
+            'rgba(0, 0, 127, 1)',
+            'rgba(63, 0, 91, 1)',
+            'rgba(127, 0, 63, 1)',
+            'rgba(191, 0, 31, 1)',
+            'rgba(255, 0, 0, 1)'
+          ]
+          heatmap.set('gradient', heatmap.get('gradient') ? null : gradient);
+        }
+
+        function changeRadius() {
+          heatmap.set('radius', heatmap.get('radius') ? null : 100);
+        }
+
+        function changeOpacity() {
+          heatmap.set('opacity', heatmap.get('opacity') ? null : 100);
+        }
+
+        var auroraV = parseInt(localStorage.getItem('Aurora_vote').length) * 100;
+        var pampangaV = parseInt(localStorage.getItem('Pampanga_vote').length) * 100;
+        var tarlacV = parseInt(localStorage.getItem('Tarlac_vote').length) * 100;
+        var nuevaV = parseInt(localStorage.getItem('Nueva_vote').length) * 100;
+        var bataanV = parseInt(localStorage.getItem('Bataan_vote').length) * 100;
+        var zambalesV = parseInt(localStorage.getItem('Zambales_vote').length) * 100;
+
+        // Heatmap data: 500 Points
+        function getPoints() {
+          return [
+            {location: new google.maps.LatLng(18.0827,121.2076),weight: auroraV},
+            new google.maps.LatLng(18.0827, 121.2076),
+
+            {location: new google.maps.LatLng(14.6504,120.4271),weight: bataanV},
+            new google.maps.LatLng(14.6504, 120.4271),
+
+            {location: new google.maps.LatLng(15.6476, 120.9950),weight: nuevaV},
+            new google.maps.LatLng(15.6476, 120.9950),
+            
+            {location: new google.maps.LatLng(15.0196, 120.6708),weight: pampangaV},
+            new google.maps.LatLng(15.0196, 120.6708),
+
+            {location: new google.maps.LatLng(15.5241, 120.4740),weight: tarlacV},
+            new google.maps.LatLng(15.5241, 120.4740),
+
+            {location: new google.maps.LatLng(15.2923, 120.1239),weight: zambalesV},
+            new google.maps.LatLng(15.2923, 120.1239)
+          ];
+        }
+
+
+    </script>
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD8-H-Knf9RIYzWjRHCheTCTDL6Z5AUTN4&signed_in=true&libraries=visualization&callback=initMap">
+    </script>
+        <!--===========================================
+                END SCRIPT AND FUNCTION FOR HITMAP
+        ============================================-->
+
+    </body>
+
+</html>

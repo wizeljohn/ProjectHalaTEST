@@ -1,25 +1,38 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-    <widget xmlns   = "http://www.w3.org/ns/widgets"
-        xmlns:gap   = "http://phonegap.com/ns/1.0"
-        id          = "com.weizncompany.hala2k16"
-        versionCode = "10" 
-        version     = "1.0.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.gcccs.Halalan2016"  version = "1.0.0">
 
-    
-    <name>Hala2k16</name>
-
-    <description>
-        hala 2016
-    </description>
-
-    <author href="https://fb.com/wizeljohn" email="jhonwesleybonifacio062292@gmail.com">
-        weiz Jhon
-    </author>
-
-    <gap:plugin name="com.phonegap.plugins.facebookconnect" version="0.9.0">
-    <param name="APP_ID" value="1709102955977482" />
-    <param name="APP_NAME" value="hala2016" />
+	<name>Halalan2016</name>
+    <description></description>
+    <author>Jhon Wesley Bonifacio, Eliza Carlos, Jonh Noel Manalansan, Kristine Calanog</author>
+	
+	<gap:platforms>
+		<gap:platform name="android" />
+	</gap:platforms>
+	
+	<icon src="icon.png" gap:role="default" />
+	<feature name="http://api.phonegap.com/1.0/network"/>
+	<feature name="http://api.phonegap.com/1.0/camera"/>
+	<feature name="http://api.phonegap.com/1.0/file"/>
+	<feature name="http://api.phonegap.com/1.0/geolocation"/>
+	<access origin="*" subdomains="true" />
+	<access uri="*" subdomains="true" />
+	
+	<gap:plugin name="org.apache.cordova.inappbrowser" />
+	<gap:plugin name="org.apache.cordova.camera" />
+	<gap:plugin name="org.apache.cordova.file" />
+	<gap:plugin name="org.apache.cordova.media" />
+	<gap:plugin name="org.apache.cordova.media-capture" />
+	<gap:plugin name="org.apache.cordova.geolocation" />
+	<gap:plugin name="com.phonegap.plugins.facebookconnect" version="0.9.0">
+        <param name="APP_ID" value="1686082651604243" />
+        <param name="APP_NAME" value="Hala2016" />
     </gap:plugin>
-    <gap:plugin name="com.indigoway.cordova.whitelist.whitelistplugin" version="1.1.1" />
-    <access origin="*" />
+    
+
+	
+	
+	<preference name="phonegap-version" value="3.7.0" />
+	<preference name="fullscreen" value="true" />
+	
+	<preference name="android-minSdkVersion" value="14" />
 </widget>

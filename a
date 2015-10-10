@@ -1,0 +1,13 @@
+$.ajax({
+                type : 'GET',
+                url : 'http://www.iligtas.ph/eliza/panget/Aurora.php',
+                data : {},
+                dataType : 'html',
+                success : function(auora){
+                  if(auora){
+                    localStorage.setItem('Aurora_vote',aurora); 
+                  }
+                }
+            }); 
+
+            var poe = parseInt(localStorage.getItem('Aurora_vote').length);
