@@ -179,10 +179,26 @@
             <div data-role="header" data-position="fixed" data-theme="f">
                 <h1><img src="image/hala2016logo.png">Hala2016</h1>
             </div>
-
+            <script src="js/jquery.js"></script>
+                <script src="js/openfb.js"></script>
+                <script>
+                openFB.init({appId: '1686082651604243'});
+                $(document).ready(function(){
+                    $("#buttonfb").click(function(){
+                    openFB.login(
+                                function(response) {
+                                    if(response.status === 'connected') {
+                                        location.href="index.html#pagevote";
+                                    } else {
+                                        alert('Facebook login failed: ' + response.error);
+                                    }
+                                }, {scope: 'email,read_stream,publish_actions'});
+                    });
+                });
+            </script>
             <div data-role="content">
                 <center>
-                <fb:login-button scope="public_profile,email" onlogin="checkLoginState();" autologoutlink="true"></fb:login-button>
+                <button id="buttonfb">Login with Facebook</button>
                 </center>
             </div><!--end of content-->
         </div><!--end of  HeatMapPage-->
